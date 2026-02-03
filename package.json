@@ -1,0 +1,27 @@
+{
+  "name": "aprendiendo-react",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alejhern/aprendiendo-react.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alejhern/aprendiendo-react/issues"
+  },
+  "homepage": "https://github.com/alejhern/aprendiendo-react#readme",
+  "devDependencies": {
+    "eslint": "^9.39.2",
+    "standard": "^17.1.2"
+  },
+  "eslintConfig": {
+    "extends": "./node_modules/standard/eslintrc.json"
+  }
+}
