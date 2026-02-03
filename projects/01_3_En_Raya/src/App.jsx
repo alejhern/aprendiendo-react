@@ -1,66 +1,11 @@
-import { useState, useEffect } from 'react'
-import confetti from 'canvas-confetti'
+import { use3EnRaya } from './hooks/use3EnRaya'
 import { Square } from './components/Square'
 import { Board } from './components/Board'
-import { checkWinner } from './logic/board'
+import { PLAYERS } from './const'
 import './App.css'
 
-const PLAYERS = {
-  x: '❌',
-  o: '⭕'
-}  
-
-
 function App() {
-  const [board, setBoard] = useState(() => {
-    const boardFromStorage = window.localStorage.getItem('board')
-    return boardFromStorage ? JSON.parse(boardFromStorage) : Array(9).fill(null)
-  })
-  const [turn, setTurn] = useState(() => {
-    const turnFromStorage = window.localStorage.getItem('turn')
-    return turnFromStorage ? turnFromStorage : PLAYERS.x
-  })
-  const [winner, setWinner] = useState(null)
-  
-  useEffect(() => {
-    window.localStorage.setItem('board', JSON.stringify(board))
-    window.localStorage.setItem('turn', turn)
-  }, [turn, board])
-
-  useEffect(() => {
-    if (winner === null) return
-    window.localStorage.removeItem('board')
-    window.localStorage.removeItem('turn')
-  }, [winner])
-
-  const isDraw = (newBoard) => {
-    return newBoard.every(square => square !== null)
-  }
-  
-  const updateBoard = (index) => {
-    if (board[index] || winner) return
-    const newBoard = [...board]
-    newBoard[index] = turn
-    setBoard(newBoard)
-    const newWinner = checkWinner(newBoard)
-    if (newWinner) {
-      setWinner(newWinner)
-      confetti() 
-      return
-    }
-    if (isDraw(newBoard)) {
-      setWinner(false)
-      return
-    }
-    const newTurn = turn === PLAYERS.x ? PLAYERS.o : PLAYERS.x
-    setTurn(newTurn)
-  }
-
-  const resetGame = () => {
-    setBoard(Array(9).fill(null))
-    setTurn(PLAYERS.x)
-    setWinner(null)
-  }
+  const { board, turn, winner, updateBoard, resetGame } = use3EnRaya()
 
   return (
     <main className="board">
