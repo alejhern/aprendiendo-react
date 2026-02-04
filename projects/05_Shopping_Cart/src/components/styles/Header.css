@@ -1,0 +1,21 @@
+/* Header sticky */
+header {
+  position: sticky; /* Fija el header mientras haces scroll */
+  top: 0;           /* Siempre en la parte superior */
+  z-index: 100;     /* Encima de otros elementos */
+  
+  text-align: center;
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+
+  /* Extra para transición suave al hacer scroll */
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15); /* ligera sombra */
+}
+
+/* H1 dentro del header */
+header h1 {
+  font-size: 2rem;
+  margin: 0;
+}

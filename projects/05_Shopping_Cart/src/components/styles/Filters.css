@@ -1,0 +1,76 @@
+.filters {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0.75rem 1rem;
+  margin: 1.5rem 0;
+  border: 1px solid #e3e6e6;
+  border-radius: 8px;
+
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0f1111;
+
+  gap: 1rem;
+}
+
+/* Grupo de filtros */
+.filters > div {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Labels */
+.filters label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+  color: #fff;
+}
+
+/* Select */
+.filters select {
+  padding: 0.35rem 0.6rem;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #d5d9d9;
+  cursor: pointer;
+}
+
+.filters select:focus {
+  outline: none;
+  border-color: #007185;
+  box-shadow: 0 0 0 2px rgba(0, 113, 133, 0.2);
+}
+
+/* Range */
+.filters input[type="range"] {
+  width: 140px;
+  accent-color: #ffd814;
+  cursor: pointer;
+}
+
+/* Precio destacado */
+.filters span {
+  font-weight: 700;
+  color: #b12704;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filters > div {
+    justify-content: space-between;
+  }
+
+  .filters input[type="range"] {
+    width: 100%;
+  }
+}

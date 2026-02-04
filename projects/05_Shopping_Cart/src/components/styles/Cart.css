@@ -1,0 +1,199 @@
+/* ------------------------------
+   Estado base
+--------------------------------*/
+
+/* checkbox oculto */
+.cart-toggle {
+  display: none;
+}
+
+/* overlay inicial */
+.cart-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 40;
+}
+
+/* panel carrito */
+.cart {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 360px;
+  max-width: 90%;
+  height: 100%;
+  background: #fff;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.77,0,0.175,1);
+  display: flex;
+  flex-direction: column;
+  z-index: 50;
+  box-shadow: -4px 0 16px rgba(0,0,0,0.25);
+}
+
+/* botón de abrir carrito */
+.cart-button {
+  cursor: pointer;
+  background: #ffd814;
+  border-radius: 20px;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+  transition: background 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: black;
+}
+
+/* Contenedor de cantidad */
+.cart-item-actions {
+  display: flex;
+  align-items: center;
+}
+
+/* Botones + y - */
+.cart-item-actions button {
+  border-radius: 4px;
+  width: 24px;
+  height: 24px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Span de cantidad */
+.cart-item-actions span {
+  min-width: 20px;      /* Asegura que siempre sea visible */
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0f1111;       /* Contraste con fondo */
+}
+
+
+.cart-button:hover {
+  background: #f7ca00;
+  color: #ffff;
+}
+
+/* botón cerrar */
+.cart-close {
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: none;
+  border: none;
+}
+
+/* contenido del carrito */
+.cart-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+/* productos */
+.cart-item {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.cart-item img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.cart-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.cart-item-info strong {
+  font-size: 0.85rem;
+  color: #0f1111;
+}
+
+.cart-item-info span {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #b12704;
+}
+
+/* footer */
+.cart-footer {
+  padding: 1rem;
+  border-top: 1px solid #e3e6e6;
+  background: #fff;
+}
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.cart-actions
+{
+    display: flex;
+    gap: 0.5rem;
+}
+
+.cart-checkout {
+  width: 100%;
+  background: #ffd814;
+  border: 1px solid #fcd200;
+  border-radius: 20px;
+  padding: 0.6rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.cart-checkout:hover {
+  background: #f7ca00;
+}
+
+/* estado vacío */
+.cart-empty {
+  text-align: center;
+  color: #555;
+  font-size: 0.9rem;
+  margin-top: 2rem;
+}
+
+
+/* ------------------------------
+   ESTADO CHECKED (abierto)
+--------------------------------*/
+
+.cart-toggle:checked ~ .cart-overlay {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.cart-toggle:checked ~ .cart {
+  transform: translateX(0);
+}
+
+/* ------------------------------
+   RESPONSIVE MOBILE
+--------------------------------*/
+@media (max-width: 640px) {
+  .cart {
+    width: 100%;
+    max-width: 100%;
+  }
+}
