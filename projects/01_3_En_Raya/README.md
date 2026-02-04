@@ -156,6 +156,187 @@ This makes `use3EnRaya` a clean, declarative abstraction over the entire game li
 
 ---
 
+## 🚀 Performance Hooks: `useMemo` and `useCallback`
+
+In addition to `useState` and `useEffect`, the `use3EnRaya` hook leverages **`useMemo`** and **`useCallback`** to improve performance and ensure stable references when passing values and functions to child components.
+
+These hooks are not about *making the app faster by default*, but about **avoiding unnecessary work and re-renders** as the application grows.
+
+---
+
+### 🔹 `useMemo`: Memoizing Derived Values
+
+`useMemo` caches the **result of a computation** and only recalculates it when its dependencies change.
+
+General syntax:
+
+```js
+const memoizedValue = useMemo(() => computeValue(a, b), [a, b])
+```
+
+Use `useMemo` when:
+
+* The value is **derived from state or props**
+* The computation has a cost (CPU or conceptual complexity)
+* You want to avoid recalculating it on every render
+
+---
+
+#### 🤝 `useMemo` in `use3EnRaya`: Draw Detection
+
+```js
+const isDraw = useMemo(() => {
+  return board.every(square => square !== null)
+}, [board])
+```
+
+Why this makes sense:
+
+* `isDraw` is **derived state** (it depends only on `board`)
+* Keeps the render logic clean and declarative
+* Guarantees consistency across renders
+
+This avoids recalculating the draw condition unless the board actually changes.
+
+---
+
+### 🔹 `useCallback`: Stable Function References
+
+`useCallback` memoizes a **function reference**, ensuring that React does not create a new function on every render unless dependencies change.
+
+General syntax:
+
+```js
+const memoizedFn = useCallback(() => {
+  // logic
+}, [dependencies])
+```
+
+Use `useCallback` when:
+
+* Passing callbacks to child components
+* The function depends on state or props
+* You want to prevent unnecessary re-renders or re-subscriptions
+
+---
+
+#### ♻️ `useCallback` in `use3EnRaya`: Reset Logic
+
+```js
+const resetGame = useCallback(() => {
+  setBoard(Array(9).fill(null))
+  setTurn(PLAYERS.x)
+  setWinner(null)
+}, [])
+```
+
+Why this is important:
+
+* `resetGame` does not depend on changing state
+* The reference stays stable across renders
+* Ideal for passing to buttons or modals
+
+---
+
+### ⚠️ Why `updateBoard` Uses `useMemo`
+
+```js
+const updateBoard = useMemo(() => (index) => {
+  // game logic
+}, [board, turn, winner, isDraw])
+```
+
+This pattern ensures:
+
+* The function always closes over **the latest state**
+* A stable reference unless dependencies change
+
+> 💡 `useCallback(fn, deps)` is equivalent to `useMemo(() => fn, deps)`
+
+Using `useMemo` here makes the dependency relationship explicit and keeps the logic readable.
+
+---
+
+### 🧠 Mental Model: When to Use Which Hook
+
+| Hook          | Use it when…                           |
+| ------------- | -------------------------------------- |
+| `useState`    | You need to store mutable UI state     |
+| `useEffect`   | You need side effects or external sync |
+| `useMemo`     | You derive values from state           |
+| `useCallback` | You pass functions down the tree       |
+
+---
+
+## 🧭 Game Lifecycle Flowchart
+
+Below is a mental model of the **complete game cycle**, from initialization to reset:
+
+```
+┌─────────────────────────┐
+│ Component Mount         │
+└─────────────┬───────────┘
+              │
+              ▼
+┌─────────────────────────┐
+│ useState (lazy init)    │
+│ - board from storage    │
+│ - turn from storage     │
+│ - winner = null         │
+└─────────────┬───────────┘
+              │
+              ▼
+┌─────────────────────────┐
+│ User clicks a Square    │
+└─────────────┬───────────┘
+              │
+              ▼
+┌─────────────────────────┐
+│ updateBoard(index)     │
+│ - guard checks          │
+│ - update board          │
+└─────────────┬───────────┘
+              │
+              ▼
+┌─────────────────────────┐
+│ checkWinner(newBoard)  │
+└───────┬─────────┬───────┘
+        │         │
+        │         ▼
+        │   ┌────────────────┐
+        │   │ Draw detected  │
+        │   │ winner = false │
+        │   └────────────────┘
+        │
+        ▼
+┌─────────────────────────┐
+│ Winner found            │
+│ - setWinner(symbol)     │
+│ - confetti 🎉           │
+└─────────────┬───────────┘
+              │
+              ▼
+┌─────────────────────────┐
+│ useEffect cleanup       │
+│ - clear localStorage    │
+└─────────────┬───────────┘
+              │
+              ▼
+┌─────────────────────────┐
+│ User clicks Reset       │
+│ resetGame()             │
+└─────────────┬───────────┘
+              │
+              ▼
+┌─────────────────────────┐
+│ Fresh game state        │
+└─────────────────────────┘
+```
+
+This flow clearly shows how **state, effects, memoization, and user interaction** work together to manage the full lifecycle of the game.
+
+---
+
 ## 🧠 State Architecture
 
 The game manages three core pieces of state inside the custom hook:
