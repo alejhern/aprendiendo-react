@@ -1,0 +1,122 @@
+/* Contenedor del buscador */
+.movie-search {
+  display: flex;
+  flex-wrap: wrap;          /* Para mobile */
+  align-items: center;
+  gap: 1.5rem;              /* Espacio grande entre elementos */
+  width: 90%;
+  margin: 3rem auto;
+  position: relative;
+  padding: 0 1rem;
+}
+
+/* Input de búsqueda */
+.movie-search input[type="search"],
+.movie-search input[type="text"] {
+  flex: 1;                  /* Ocupa todo el espacio disponible */
+  min-width: 250px;
+  padding: 1.2rem 3rem 1.2rem 1.5rem;
+  font-size: 1.2rem;        /* Texto más grande */
+  border-radius: 50px;      /* Píldora grande */
+  background-color: #121212;
+  color: #fff;
+  border: 1px solid #2a2a2a;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Placeholder */
+.movie-search input::placeholder {
+  color: #8a8a8a;
+}
+
+/* Focus */
+.movie-search input:focus {
+  outline: none;
+  border-color: #e50914;
+  box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.3);
+}
+
+/* Label del checkbox */
+.movie-search label[for="search"] {
+  display: flex;
+  align-items: center;
+  gap: 1rem;               /* Más separación */
+  font-size: 1.1rem;       /* Más grande */
+  color: #eaeaea;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-weight: bold;
+  font-size: 28px;
+}
+
+/* Checkbox */
+.movie-search input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+
+  width: 32px;              /* Grande y clicable */
+  height: 32px;
+  margin: 0;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background-color: #121212;
+  border: 2px solid #2a2a2a;
+  position: relative;
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.1s ease;
+}
+
+/* Hover */
+.movie-search input[type="checkbox"]:hover {
+  border-color: #e50914;
+}
+
+/* Click */
+.movie-search input[type="checkbox"]:active {
+  transform: scale(0.95);
+}
+
+/* Checked */
+.movie-search input[type="checkbox"]:checked {
+  background-color: #e50914;
+  border-color: #e50914;
+  box-shadow: 0 0 0 4px rgba(229, 9, 20, 0.25);
+}
+
+/* Check animado */
+.movie-search input[type="checkbox"]::after {
+  content: "";
+  position: absolute;
+
+  left: 9px;
+  top: 6px;
+
+  width: 8px;
+  height: 16px;
+
+  border: solid white;
+  border-width: 0 3px 3px 0;
+
+  transform: rotate(45deg) scale(0);
+  opacity: 0;
+
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+/* Mostrar check */
+.movie-search input[type="checkbox"]:checked::after {
+  transform: rotate(45deg) scale(1);
+  opacity: 1;
+}
+
+button {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: bold;
+    font-size: 28px;
+}
