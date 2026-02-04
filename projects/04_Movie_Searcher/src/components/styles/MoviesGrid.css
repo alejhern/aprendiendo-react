@@ -1,0 +1,59 @@
+/* Contenedor principal */
+main {
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+/* Grid de resultados */
+.results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Tarjeta de película */
+.movie {
+  background-color: #121212;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Hover Cuevana */
+.movie:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Poster */
+.movie img {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  display: block;
+  background-color: #1a1a1a;
+}
+
+/* Título */
+.movie h3 {
+  font-size: 0.95rem;
+  margin: 0.6rem 0.6rem 0.2rem;
+  color: #fff;
+  line-height: 1.2;
+}
+
+/* Año */
+.movie p {
+  margin: 0 0.6rem 0.8rem;
+  font-size: 0.8rem;
+  color: #9a9a9a;
+}
+
+/* Estado sin resultados */
+.no-results {
+  text-align: center;
+  margin-top: 3rem;
+  color: #9a9a9a;
+  font-size: 1rem;
+}
