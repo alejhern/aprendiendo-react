@@ -10,6 +10,50 @@ import {
 import { useUsers } from "../hooks/useUsers";
 import { SortBy, type User } from "../types.d";
 
+function FormTable({
+	toggleStriped,
+	sorting,
+	setFilterCountry,
+	toggleSorting,
+}: {
+	toggleStriped: () => void;
+	sorting: SortBy;
+	setFilterCountry: (country: string) => void;
+	toggleSorting: (newSorting: SortBy) => void;
+}) {
+	const { refetch } = useUsers();
+	return (
+		<>
+			<Form>
+				<Form.Group className="mb-3" controlId={useId()}>
+					<Form.Label>Search by country</Form.Label>
+					<Form.Control
+						type="text"
+						placeholder="Spain, France, Germany..."
+						onChange={(e) => setFilterCountry(e.target.value)}
+					/>
+				</Form.Group>
+			</Form>
+			<Row className="mb-3">
+				<ButtonGroup aria-label="Basic example">
+					<Button variant="secondary" onClick={toggleStriped}>
+						Toggle Striped
+					</Button>
+					<Button
+						variant="secondary"
+						onClick={() => toggleSorting(SortBy.COUNTRY)}
+					>
+						{sorting !== SortBy.NONE ? "Unsort" : "Sort"} by country
+					</Button>
+					<Button variant="secondary" onClick={() => refetch()}>
+						Restore Users
+					</Button>
+				</ButtonGroup>
+			</Row>
+		</>
+	);
+}
+
 function SorteableTableHeader({
 	toggleSorting,
 }: { toggleSorting: (newSorting: SortBy) => void }) {
@@ -67,7 +111,7 @@ function RowUser({ user }: { user: User }) {
 		<tr key={user.email}>
 			<td>
 				<img
-					src={user.picture.thumbnail}
+					src={user.picture.thumbnail || ""}
 					alt={`${user.name.first} ${user.name.last}`}
 				/>
 			</td>
@@ -85,50 +129,6 @@ function RowUser({ user }: { user: User }) {
 				</Button>
 			</td>
 		</tr>
-	);
-}
-
-function FormTable({
-	toggleStriped,
-	sorting,
-	setFilterCountry,
-	toggleSorting,
-}: {
-	toggleStriped: () => void;
-	sorting: SortBy;
-	setFilterCountry: (country: string) => void;
-	toggleSorting: (newSorting: SortBy) => void;
-}) {
-	const { refetch } = useUsers();
-	return (
-		<>
-			<Form>
-				<Form.Group className="mb-3" controlId={useId()}>
-					<Form.Label>Search by country</Form.Label>
-					<Form.Control
-						type="text"
-						placeholder="Spain, France, Germany..."
-						onChange={(e) => setFilterCountry(e.target.value)}
-					/>
-				</Form.Group>
-			</Form>
-			<Row className="mb-3">
-				<ButtonGroup aria-label="Basic example">
-					<Button variant="secondary" onClick={toggleStriped}>
-						Toggle Striped
-					</Button>
-					<Button
-						variant="secondary"
-						onClick={() => toggleSorting(SortBy.COUNTRY)}
-					>
-						{sorting !== SortBy.NONE ? "Unsort" : "Sort"} by country
-					</Button>
-					<Button variant="secondary" onClick={() => refetch()}>
-						Restore Users
-					</Button>
-				</ButtonGroup>
-			</Row>
-		</>
 	);
 }
 
