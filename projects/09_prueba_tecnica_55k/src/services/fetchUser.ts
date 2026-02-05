@@ -1,11 +1,22 @@
 import type { User } from "../types.d";
-export async function fetchUsers(page: number): Promise<User[]> {
-	const response = await fetch(
-		`https://randomuser.me/api/?results=10&seed=alejhern&page=${page}`,
+
+export const fetchUsers = async (
+	cursor: number,
+): Promise<{ users: User[]; nextCursor: number }> => {
+	const res = await fetch(
+		`https://randomuser.me/api/?results=10&page=${cursor}&seed=alejhern`,
 	);
-	if (!response.ok) {
-		throw new Error(`HTTP error! status: ${response.status}`);
-	}
-	const data = await response.json();
-	return data.results;
-}
+	if (!res.ok) throw new Error("Fetch error");
+	const data = await res.json();
+	const users: User[] = data.results.map((user: User) => ({
+		name: user.name,
+		email: user.email,
+		location: user.location,
+		picture: user.picture,
+	}));
+	console.log("fetchUsers data", users);
+	return {
+		users,
+		nextCursor: data.info.page + 1,
+	};
+};
