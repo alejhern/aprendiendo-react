@@ -2,6 +2,7 @@ import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { Button, ButtonGroup, Container, Form, Row } from "react-bootstrap";
 import "./App.css";
 import { TableUsers } from "./components/TableUsers";
+import { fetchUsers } from "./services/fetchUser";
 import { SortBy, type User } from "./types.d";
 
 function App() {
@@ -10,16 +11,25 @@ function App() {
 	const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
 	const [filterCountry, setFilterCountry] = useState<string>("");
 	const originalUsers = useRef<User[]>([]);
+	const [loading, setLoading] = useState<boolean>(false);
+	const [currentPage, setCurrentPage] = useState<number>(1);
 
 	useEffect(() => {
-		fetch("https://randomuser.me/api/?results=100")
-			.then((response) => response.json())
-			.then((data) => {
-				setUsers(data.results);
-				originalUsers.current = data.results;
-			})
-			.catch((error) => console.error("Error fetching users:", error));
-	}, []);
+		setLoading(true);
+		(async () => {
+			try {
+				const newUsers = await fetchUsers(currentPage);
+				if (currentPage === 1) {
+					originalUsers.current = newUsers;
+				}
+				setUsers((prevUsers) => [...prevUsers, ...newUsers]);
+			} catch (error) {
+				console.error("Error fetching users:", error);
+			} finally {
+				setLoading(false);
+			}
+		})();
+	}, [currentPage]);
 
 	const filteredUsers = useMemo(
 		() =>
@@ -69,7 +79,7 @@ function App() {
 				<Form.Group className="mb-3" controlId={useId()}>
 					<Form.Label>Search by country</Form.Label>
 					<Form.Control
-						type="email"
+						type="text"
 						placeholder="Spain, France, Germany..."
 						onChange={(e) => setFilterCountry(e.target.value)}
 					/>
@@ -100,7 +110,16 @@ function App() {
 					striped={striped}
 					deleteUser={handlerDeleteUser}
 					toggleSorting={toggleSorting}
+					loading={loading}
 				/>
+			</Row>
+			<Row>
+				<Button
+					variant="primary"
+					onClick={() => setCurrentPage((prev) => prev + 1)}
+				>
+					Load More
+				</Button>
 			</Row>
 		</Container>
 	);
