@@ -30,7 +30,7 @@ const columns = [
 ];
 
 function App() {
-	const { users } = useUsers();
+	const { users, isLoading } = useUsers();
 	return (
 		<>
 			<h1>Mi Proyecto con React Query</h1>
@@ -45,7 +45,8 @@ function App() {
 						},
 					}}
 					pageSizeOptions={[5]}
-					checkboxSelection
+					loading={isLoading}
+					disableRowSelectionOnClick
 				/>
 			</Paper>
 		</>
