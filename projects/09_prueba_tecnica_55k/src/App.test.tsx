@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import App from "./App";
-import { Gender, Title, User } from "./types.d";
+import { Gender, Title, type User } from "./types.d";
 
 // Mock de usuarios
 const mockUser1: User = {
@@ -38,7 +38,7 @@ const mockUser1: User = {
 
 const mockUser2: User = {
 	gender: Gender.Female,
-	name: { title: Title.Ms, first: "Jane", last: "Smith" },
+	name: { title: Title.MS, first: "Jane", last: "Smith" },
 	location: {
 		street: { number: 456, name: "Rue de Paris" },
 		city: "Paris",
@@ -71,8 +71,8 @@ const mockUser2: User = {
 import * as fetchModule from "./services/fetchUser";
 vi.spyOn(fetchModule, "fetchUsers").mockImplementation(async (page = 1) => {
 	if (page === 1) return { users: [mockUser1], nextCursor: 2 };
-	if (page === 2) return { users: [mockUser2], nextCursor: undefined };
-	return { users: [], nextCursor: undefined };
+	if (page === 2) return { users: [mockUser2], nextCursor: 0 };
+	return { users: [], nextCursor: 0 };
 });
 
 // Helper para renderizar con QueryClient
