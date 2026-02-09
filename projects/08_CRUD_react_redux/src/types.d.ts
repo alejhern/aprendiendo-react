@@ -6,5 +6,5 @@ export interface User {
 }
 
 export interface UserWithId extends User {
-	id: number;
+	id: string;
 }
