@@ -28,8 +28,8 @@ export const store = configureStore({
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware().concat(
-			persistantMiddleware,
 			syncWithDatabaseMiddleware,
+			persistantMiddleware,
 		),
 });
 export type RootState = ReturnType<typeof store.getState>;
