@@ -1,17 +1,17 @@
 import { create, remove, update } from "../store/slices/users";
-import type { User, UserWithId } from "../types";
+import type { UserWithId } from "../types";
 import { useAppDispatch } from "./useStore";
 
 export function useUsersActions() {
 	const dispatch = useAppDispatch();
 
-	const addUser = (user: User) => {
+	const addUser = (user: UserWithId) => {
 		dispatch(create(user));
 	};
 	const editUser = (user: UserWithId) => {
 		dispatch(update(user));
 	};
-	const removeUser = (id: number) => {
+	const removeUser = (id: string) => {
 		dispatch(remove(id));
 	};
 	return {
