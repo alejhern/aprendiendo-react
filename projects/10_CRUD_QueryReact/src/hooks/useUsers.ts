@@ -62,11 +62,25 @@ export function useUsers() {
 			syncDB("users/update", user);
 			return user;
 		},
-		onSuccess: async (updatedUser) => {
-			/*queryClient.setQueryData<UserWithId[]>(["users"], (old = []) =>
+		onMutate: async (updatedUser) => {
+			await queryClient.cancelQueries({ queryKey: ["users"] });
+			const previousUsers = queryClient.getQueryData<UserWithId[]>(["users"]);
+			queryClient.setQueryData<UserWithId[]>(["users"], (old = []) =>
 				old.map((u) => (u.id === updatedUser.id ? updatedUser : u)),
-			);*/
-			await queryClient.invalidateQueries({ queryKey: ["users"] });
+			);
+			return { previousUsers };
+		},
+		onError: (err, updatedUser, context) => {
+			console.error("Error al editar el usuario:", err);
+			if (context?.previousUsers) {
+				queryClient.setQueryData(["users"], context?.previousUsers);
+			}
+		},
+		onSuccess: async (updatedUser) => {
+			// queryClient.setQueryData<UserWithId[]>(["users"], (old = []) =>
+			// 	old.map((u) => (u.id === updatedUser.id ? updatedUser : u)),
+			// );
+			//await queryClient.invalidateQueries({ queryKey: ["users"] });
 		},
 	});
 
@@ -75,11 +89,25 @@ export function useUsers() {
 			syncDB("users/remove", id);
 			return id;
 		},
-		onSuccess: async (id: number) => {
-			/*queryClient.setQueryData<UserWithId[]>(["users"], (old = []) =>
+		onMutate: async (id) => {
+			await queryClient.cancelQueries({ queryKey: ["users"] });
+			const previousUsers = queryClient.getQueryData<UserWithId[]>(["users"]);
+			queryClient.setQueryData<UserWithId[]>(["users"], (old = []) =>
 				old.filter((u) => u.id !== id),
-			);*/
-			await queryClient.invalidateQueries({ queryKey: ["users"] });
+			);
+			return { previousUsers };
+		},
+		onError: (err, id, context) => {
+			console.error("Error al eliminar el usuario:", err);
+			if (context?.previousUsers) {
+				queryClient.setQueryData(["users"], context?.previousUsers);
+			}
+		},
+		onSuccess: async (id: number) => {
+			// queryClient.setQueryData<UserWithId[]>(["users"], (old = []) =>
+			// 	old.filter((u) => u.id !== id),
+			// );
+			// await queryClient.invalidateQueries({ queryKey: ["users"] });
 		},
 	});
 
