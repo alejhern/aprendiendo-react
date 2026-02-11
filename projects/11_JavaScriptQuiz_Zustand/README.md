@@ -1,73 +1,122 @@
-# React + TypeScript + Vite
+# 🟨 JavaScript Quiz Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A **JavaScript Quiz application** built with **React** and **Zustand**, focused on simplicity, performance, and clean state management. The app allows users to answer randomized quiz questions, navigate between them, and persist progress using local storage.
 
-Currently, two official plugins are available:
+This project is designed as a **learning and portfolio project**, showcasing modern React patterns and lightweight global state management with JavaScript-focused quiz content.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚀 Features
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+* Randomized quiz questions
+* Answer selection with correctness tracking
+* Navigation between questions (next / previous)
+* Persistent state using `zustand/persist`
+* Clean and minimal global state logic
+* Fully typed with TypeScript
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠 Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+* **React**
+* **TypeScript**
+* **Zustand** (state management)
+* **Vite** (development & build tool)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🧠 State Management with Zustand
+
+The application uses **Zustand** for global state management. All quiz-related logic is centralized in a single store:
+
+* Questions list
+* Current question index
+* Answer selection and validation
+* Quiz reset
+* Persistent storage
+
+Zustand provides a minimal and intuitive API, allowing direct and readable state updates without unnecessary boilerplate.
+
+---
+
+## 🔄 Zustand vs React Redux
+
+| Feature        | Zustand                                | React Redux              |
+| -------------- | -------------------------------------- | ------------------------ |
+| Boilerplate    | Very low                               | High (even with Toolkit) |
+| Learning curve | Low                                    | Medium–High              |
+| Async handling | Built-in                               | Requires middleware      |
+| State updates  | Direct and simple                      | Reducers & actions       |
+| Performance    | Excellent (fine-grained subscriptions) | Excellent                |
+| DevTools       | Basic                                  | Advanced                 |
+| Ecosystem      | Small–Medium                           | Very large               |
+| Best for       | Small–medium apps                      | Large / enterprise apps  |
+
+---
+
+### 📌 Why Zustand for this project?
+
+Zustand was chosen because it:
+
+* Keeps the codebase small and readable
+* Avoids unnecessary abstractions
+* Handles async logic naturally
+* Provides persistence with minimal setup
+* Fits perfectly with the scope of a quiz application
+
+For larger or enterprise-level applications, **Redux Toolkit** would be a solid alternative.
+
+---
+
+## 📂 Project Structure
+
+```txt
+public/
+└── data.json          # Quiz questions
+src/
+├── components/        # UI components
+├── store/             # Zustand stores
+│   └── useQuestionsStore.ts
+├── types.d.ts         # TypeScript types
+├── App.tsx
+└── main.tsx
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ▶️ Getting Started
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ```
+
+---
+
+## 📦 Persistence
+
+The quiz state is persisted using `zustand/middleware`, allowing users to refresh the page without losing progress.
+
+```ts
+persist({ name: "questions-storage" })
+```
+
+---
+
+## 📈 Possible Improvements
+
+* Add scoring summary
+* Timer per question
+* Category selection
+* Difficulty levels
+* Dark mode support
+
+---
+
+## 📄 License
+
+This project is for educational purposes and personal learning.
